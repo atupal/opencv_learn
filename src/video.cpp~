@@ -98,3 +98,27 @@ int readVideoFromDevice()
 
 	return 0;
 }
+
+
+int readVideoForBianhuan(bianhuanType bianhuan)
+{
+	CvCapture *capture;
+	capture = cvCreateCameraCapture(0);
+	assert( capture != NULL );
+	cvNamedWindow("win_1", CV_WINDOW_AUTOSIZE);
+	IplImage *frame;
+	while (1) {
+		frame = cvQueryFrame(capture);
+		if ( !frame ) {
+			break;
+		}
+		frame = bianhuan(frame);
+		cvShowImage("win_1", frame);
+		char a = cvWaitKey(33);
+		if ( a == 27 ) {
+			break;
+		}
+	}
+	cvReleaseCapture(&capture);
+	cvDestroyWindow( "win_1" );
+}

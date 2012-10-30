@@ -3,8 +3,6 @@
 #include <highgui.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-
 int readVideo(char *fileName)
 {
 	printf("%s\n", fileName);
@@ -66,7 +64,59 @@ int readVideoWithATrackbar(char *fileName)
 		}
 		cvShowImage( "win_1", frame );
 		char c = cvWaitKey(33);
+		if ( c == 27 ) {
+			break;
+		}
 
 	}
 	return (0);
+}
+
+int readVideoFromDevice()
+{
+	CvCapture *capture;
+	capture = cvCreateCameraCapture(0);
+	assert( capture != NULL);
+	cvNamedWindow("win_1", CV_WINDOW_AUTOSIZE);
+	IplImage *frame;
+	while (1) {
+		frame = cvQueryFrame(capture);
+		frame = colorToBlack(frame);
+		if ( !frame ) {
+			break;
+		}
+		cvShowImage( "win_1", frame );
+		char a = cvWaitKey(33);
+		if ( a == 27 ) {
+			break;
+		}
+	}
+	cvReleaseCapture( &capture );
+	cvDestroyWindow( "win_1" );
+
+	return 0;
+}
+
+
+int readVideoForBianhuan(bianhuanType bianhuan)
+{
+	CvCapture *capture;
+	capture = cvCreateCameraCapture(0);
+	assert( capture != NULL );
+	cvNamedWindow("win_1", CV_WINDOW_AUTOSIZE);
+	IplImage *frame;
+	while (1) {
+		frame = cvQueryFrame(capture);
+		if ( !frame ) {
+			break;
+		}
+		frame = bianhuan(frame);
+		cvShowImage("win_1", frame);
+		char a = cvWaitKey(33);
+		if ( a == 27 ) {
+			break;
+		}
+	}
+	cvReleaseCapture(&capture);
+	cvDestroyWindow( "win_1" );
 }

@@ -8,13 +8,27 @@
 
 int main(int argc, char *argv[])
 {
+	char fileName[255] = "/home/atupal/Downloads/东之伊甸.mp4";
+	char tsUnit[][255] = {"opencv_capture", 
+							"videoT",
+							"videoD",
+							"videoB"};
+
+	if (argc > 2) {
+		strcpy(fileName, argv[2]);
+	}
 	if (argc > 1) {
-		if (memcmp(argv[1], "opencv_capture", sizeof(argv[1])) == 0) {
-			readVideo("/home/atupal/Downloads/东之伊甸.mp4");
+		if (strcmp(argv[1], tsUnit[0]) == 0) {
+			readVideo(fileName);
 		}
-		if (strcmp(argv[1], "videoT")) == 0) {
-			printf("sf");
-			readVideoWithATrackbar("/home/atupal/Downloads/东之伊甸.mp4");
+		if (strcmp(argv[1], tsUnit[1]) == 0) {
+			readVideoWithATrackbar(fileName);
+		}
+		if (strcmp(argv[1], tsUnit[2]) == 0) {
+			readVideoFromDevice();
+		}
+		if (strcmp(argv[1], tsUnit[3]) == 0) {
+			readVideoForBianhuan(reserveColor);
 		}
 	}
 
